@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Validador de CPF</title>
+</head>
+<body>
+    <input type="text" id="txtCPF">
+    <input type="button" value="VALIDAR" onclick="CapturarDados()">
+</body>
+<script>
+    //FUNÇÃO QUE CAPTURA OS DADOS PARA VAR
+    function CapturarDados()
+    {
+        let ValorDigitado = document.getElementById('txtCPF').value
+        MontarArray(ValorDigitado)
+    } 
+    //SEPARAÇÃO DOS DIGITOS
+    function MontarArray(ValorCapturado)
+    {
+        let NumerosCPF = []
+        for (let i = 0; i < ValorCapturado.length; i++)
+        {
+            NumerosCPF.push(ValorCapturado.substring(i, i +1))
+        }
+        ValidarPrimeiroDigito(NumerosCPF)
+    }
+    //VALIDAÇÃO DO PRIMEIRO DIGITO
+    function ValidarPrimeiroDigito(Numeros)
+    {
+        //LIMPEZA DE VARIAVEL
+        let ValorTotal = 0
+        let i = 0
+        let Peso = 10
+        while (i <=8)
+        {
+            ValorTotal = ValorTotal + (Numeros [i] * Peso)
+            i ++;
+            Peso --;
+        }
+        let Resto = ValorTotal % 11
+        let Digito = 11 - Resto
+        //ESTRUTURA DE DECISÃO CASO O ULTIMO DIGITO SEJA 10 OU 11
+        if(Digito ==10 || Digito == 11 && Numeros [9] ==0)
+        {
+            ValidarSegundoDigito(Numeros)
+        }
+        //CASO NÃO SEJA 10 OU 11, TENTA A SEGUNDA OPÇÃO DE VALIDAÇÃO
+        else
+        {
+            if(Digito == Numeros[9])
+            {
+                //CASO O DIGITO FOR IGUAL AO 10º NUMERO DO CPF
+                ValidarSegundoDigito(Numeros)
+            }
+            else
+            {
+                //CASO O DIGITO FOR IGUAL AO 10º NUMERO DO CPF
+                CPFInvalido()
+            }
+        }
+    }
+    //VALIDAÇÃO DO SEGUNDO DIGITO
+    function ValidarSegundoDigito(Numeros)
+    {
+        //LIMPEZA DE VARIAVEL
+        let ValorTotal = 0
+        let i = 0
+        let Peso = 11
+        while(i <=9)
+        {
+            ValorTotal = ValorTotal + (Numeros [i] * Peso)
+            i ++;
+            Peso --;
+        }
+        let Resto = ValorTotal % 11
+        let Digito = 11 - Resto
+        //ESTRUTURA DE DECISÃO CASO O ULTIMO DIGITO SEJA 10 OU 11
+        if(Digito == 10 || Digito == 11 && Numeros[10] ==0)
+        {
+            CPFValido()
+        }
+        //CASO NÃO SEJA 10 OU 11, TENTA A SEGUNDA OPÇÃO DE VALIDAÇÃO
+        else
+        {
+            if(Digito == Numeros[10])
+            {
+                //CASO O DIGITO FOR IGUAL AO 10º NUMERO DO CPF
+                CPFValido()
+            }
+            else
+            {
+                //CASO O DIGITO NÃO FOR IGUAL AO 10º NUMERO DO CPF
+                CPFInvalido()
+            }
+        }
+    }
+    //MENSAGEM DE CPF VÁLIDO
+    function CPFValido()
+    {
+        alert("***ESTE CPF É VALIDO!***")
+    }
+    //MENSAGEM DE CPF INVÁLIDO
+    function CPFInvalido()
+    {
+        alert("***ESTE CPF É INVALIDO!***")
+    }
+</script>
+</html>
